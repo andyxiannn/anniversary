@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Anniversary 💕</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <div class="heart-animation">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h2>Enter Our Secret Code</h2>
+            <p>Only we know this special password 💕</p>
+            <form id="loginForm">
+                <input type="password" id="passwordInput" placeholder="Our special word..." required>
+                <button type="submit">
+                    <i class="fas fa-key"></i>
+                    Unlock Our Memories
+                </button>
+            </form>
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+        <div class="floating-hearts">
+            <div class="heart heart1">💕</div>
+            <div class="heart heart2">💖</div>
+            <div class="heart heart3">💝</div>
+            <div class="heart heart4">💗</div>
+            <div class="heart heart5">💓</div>
+        </div>
+    </div>
+
+    <!-- Main Website -->
+    <div id="mainContent" class="main-content hidden">
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar">
+                <h1 class="logo">Our Love Story</h1>
+                <ul class="nav-links">
+                    <li><a href="#home" data-section="home">Home</a></li>
+                    <li><a href="#gallery" data-section="gallery">Gallery</a></li>
+                    <li><a href="#timeline" data-section="timeline">Timeline</a></li>
+                    <li><a href="#memories" data-section="memories">Memories</a></li>
+                </ul>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Happy Anniversary!</h1>
+                    <p class="hero-subtitle">Celebrating our beautiful journey together</p>
+                    <div class="anniversary-date">
+                        <i class="fas fa-calendar-heart"></i>
+                        <span>June 26, 2025</span>
+                    </div>
+                    <div class="love-counter">
+                        <div class="counter-item">
+                            <span class="counter-number" id="daysCounter">0</span>
+                            <span class="counter-label">Days Together</span>
+                        </div>
+                        <div class="counter-item">
+                            <span class="counter-number" id="hoursCounter">0</span>
+                            <span class="counter-label">Hours of Love</span>
+                        </div>
+                        <div class="counter-item">
+                            <span class="counter-number" id="minutesCounter">0</span>
+                            <span class="counter-label">Minutes of Joy</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-camera"></i>
+                        <p>Add your favorite photo here</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="section">
+            <div class="container">
+                <h2 class="section-title">Our Beautiful Moments</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <div class="image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Photo 1</p>
+                        </div>
+                        <div class="overlay">
+                            <h3>First Date</h3>
+                            <p>The beginning of our story</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Photo 2</p>
+                        </div>
+                        <div class="overlay">
+                            <h3>First Trip</h3>
+                            <p>Adventures together</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Photo 3</p>
+                        </div>
+                        <div class="overlay">
+                            <h3>Special Moment</h3>
+                            <p>Unforgettable memories</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Photo 4</p>
+                        </div>
+                        <div class="overlay">
+                            <h3>Celebration</h3>
+                            <p>Happy times</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Photo 5</p>
+                        </div>
+                        <div class="overlay">
+                            <h3>Recent Memory</h3>
+                            <p>Latest adventure</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Photo 6</p>
+                        </div>
+                        <div class="overlay">
+                            <h3>Today</h3>
+                            <p>Still in love</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="section">
+            <div class="container">
+                <h2 class="section-title">Our Love Timeline</h2>
+                <div class="timeline">
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-date">First Meeting</div>
+                            <h3>The Day We Met</h3>
+                            <p>It was love at first sight, and everything changed from that moment.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-date">First Date</div>
+                            <h3>Our First Date</h3>
+                            <p>Nervous butterflies and endless conversations that lasted until dawn.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-date">First "I Love You"</div>
+                            <h3>Three Little Words</h3>
+                            <p>The moment we both knew this was something special and real.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-date">Moving In Together</div>
+                            <h3>Our First Home</h3>
+                            <p>Building a life together, one memory at a time.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-date">Today</div>
+                            <h3>Still Going Strong</h3>
+                            <p>Here's to many more years of love, laughter, and adventures together.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Memories Section -->
+        <section id="memories" class="section">
+            <div class="container">
+                <h2 class="section-title">Love Notes & Memories</h2>
+                <div class="memories-grid">
+                    <div class="memory-card">
+                        <div class="memory-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>What I Love About You</h3>
+                        <p>Your beautiful smile that lights up my world, your caring heart, and the way you make everything better just by being there.</p>
+                    </div>
+                    <div class="memory-card">
+                        <div class="memory-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Favorite Memory</h3>
+                        <p>That spontaneous road trip where we got lost but found the most beautiful sunset spot. It was perfect because I was with you.</p>
+                    </div>
+                    <div class="memory-card">
+                        <div class="memory-icon">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                        <h3>Forever Promise</h3>
+                        <p>I promise to love you through all seasons of life, to be your best friend, your partner in crime, and your biggest supporter.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

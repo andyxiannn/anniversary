@@ -41,11 +41,10 @@ const PHOTO_FILES = [
     'Our first time won prize in Pesta_10122023.JPG',
     'Our first trip to Korea_03112024.JPG',
     'Our First Valentines 2024_15022024.JPG',
-    'Our official First Date_01102023.JPG',
-    'Our picnic with Cookies_16122024.JPG',
+    'Our official First Date_01102023.JPG',    'Our picnic with Cookies_16122024.JPG',
     'Our Valentine_14022025.JPG',
-    'Your first Birthday after togerther_30102023.JPG',
-    'Your First hand-made mooncake_01102023.jpg'
+    'First BB Birthday after togerther_30102023.JPG',
+    'First hand-made mooncake by you_01102023.jpg'
 ];
 
 const VIDEO_FILES = [
@@ -344,36 +343,81 @@ function getDescriptionFromFilename(filename) {
     // Remove file extension and date suffix (_DDMMYYYY)
     const nameWithoutExt = filename.replace(/\.[^/.]+$/, "").replace(/_\d{8}$/, "");
     
-    // Create a more natural description
-    let description = nameWithoutExt
-        .replace(/Our first/gi, '💕 Our first')
-        .replace(/Our/gi, '💑 Our')
-        .replace(/Your/gi, '🥰 Your')
-        .replace(/First Date/gi, '💕 First Date')
-        .replace(/anniversary/gi, '🎉 Anniversary')
-        .replace(/Birthday/gi, '🎂 Birthday')
-        .replace(/Valentine/gi, '💝 Valentine\'s Day')
-        .replace(/wedding/gi, '💒 Wedding')
-        .replace(/concert/gi, '🎵 Concert')
-        .replace(/hiking/gi, '🥾 Hiking Adventure')
-        .replace(/trip/gi, '✈️ Trip')
-        .replace(/Korea/gi, '🇰🇷 Korea')
-        .replace(/Jeju/gi, '🏝️ Jeju Island')
-        .replace(/picnic/gi, '🧺 Picnic')
-        .replace(/drawing/gi, '🎨 Drawing')
-        .replace(/Golf/gi, '⛳ Golf')
-        .replace(/farm/gi, '🚜 Farm Visit')
-        .replace(/roller skate/gi, '⛸️ Roller Skating')
-        .replace(/Pesta/gi, '🏆 Pesta Competition')
-        .replace(/mooncake/gi, '🥮 Mooncake Making')
-        .replace(/Cookies/gi, '🍪 Cookies')
-        .replace(/Flower/gi, '🌸 Flowers')
-        .replace(/parents/gi, '👨‍👩‍👧‍👦 Parents')
-        .replace(/Bridge/gi, '🌉 Bridge')
-        .replace(/Oranges/gi, '🍊 Oranges')
-        .replace(/photograph/gi, '📸 Photography')
-        .replace(/Silver Grass/gi, '🌾 Silver Grass Field')
-        .replace(/Together/gi, '💕 Together');
+    // Create a more natural description using a bulletproof approach
+    let description = nameWithoutExt;
+    
+    // First fix the typo
+    description = description.replace(/togerther/gi, 'together');
+    
+    // Use a step-by-step manual approach to avoid ALL conflicts
+      // Step 1: Handle multi-word phrases that contain Our/Your
+    const multiWordReplacements = [
+        { from: /Our first/gi, to: '💕 Our first' },
+        { from: /First Date/gi, to: '💕 First Date' },
+        { from: /Silver Grass/gi, to: '🌾 Silver Grass Field' },
+        { from: /roller skate/gi, to: '⛸️ Roller Skating' },
+        { from: /First BB/gi, to: '🥰 First BB' },
+        { from: /by you/gi, to: 'by 🥰 you' }
+    ];
+    
+    multiWordReplacements.forEach(replacement => {
+        description = description.replace(replacement.from, replacement.to);
+    });
+    
+    // Step 2: Handle other terms (not Our/Your)
+    const otherReplacements = [
+        { from: /anniversary/gi, to: '🎉 Anniversary' },
+        { from: /Birthday/gi, to: '🎂 Birthday' },
+        { from: /Valentine/gi, to: '💝 Valentine\'s Day' },
+        { from: /wedding/gi, to: '💒 Wedding' },
+        { from: /concert/gi, to: '🎵 Concert' },
+        { from: /hiking/gi, to: '🥾 Hiking Adventure' },
+        { from: /trip/gi, to: '✈️ Trip' },
+        { from: /Korea/gi, to: '🇰🇷 Korea' },
+        { from: /Jeju/gi, to: '🏝️ Jeju Island' },
+        { from: /picnic/gi, to: '🧺 Picnic' },
+        { from: /drawing/gi, to: '🎨 Drawing' },
+        { from: /Golf/gi, to: '⛳ Golf' },
+        { from: /farm/gi, to: '🚜 Farm Visit' },
+        { from: /Pesta/gi, to: '🏆 Pesta Competition' },
+        { from: /mooncake/gi, to: '🥮 Mooncake Making' },
+        { from: /Cookies/gi, to: '🍪 Cookies' },
+        { from: /Flower/gi, to: '🌸 Flowers' },        { from: /parents/gi, to: '👨‍👩‍👧‍👦 Parents' },
+        { from: /Bridge/gi, to: '🌉 Bridge' },
+        { from: /Oranges/gi, to: '🍊 Oranges' },
+        { from: /photograph/gi, to: '📸 Photography' },
+        { from: /Together/gi, to: '💕 Together' }
+    ];
+    
+    otherReplacements.forEach(replacement => {
+        description = description.replace(replacement.from, replacement.to);
+    });
+      // Step 3: Handle standalone Our/you very carefully
+    // Split into words and manually check each word and its context
+    const words = description.split(' ');
+    const processedWords = words.map((word, index) => {
+        // Check if this word is "Our" and hasn't been processed yet
+        if (word === 'Our') {
+            // Check if previous word already contains an emoji for Our
+            const prevWord = index > 0 ? words[index - 1] : '';
+            if (!prevWord.includes('💕') && !prevWord.includes('💑')) {
+                return '💑 Our';
+            }
+        }
+        
+        // Check if this word is "you" and hasn't been processed yet
+        if (word === 'you') {
+            // Check if previous word already contains an emoji for you
+            const prevWord = index > 0 ? words[index - 1] : '';
+            if (!prevWord.includes('🥰')) {
+                return '🥰 you';
+            }
+        }
+        
+        return word;
+    });
+    
+    description = processedWords.join(' ');
     
     // Clean up any extra spaces
     description = description.replace(/\s+/g, ' ').trim();

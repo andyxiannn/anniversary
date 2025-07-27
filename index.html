@@ -39,17 +39,13 @@
     <div id="mainContent" class="main-content hidden">
         <!-- Header -->
         <header class="header">
-            <nav class="navbar">
-                <h1 class="logo">Our Love Story</h1>                <ul class="nav-links">
+            <nav class="navbar">                <h1 class="logo">Our Love Story</h1>                <ul class="nav-links">
                     <li><a href="#home" data-section="home">Home</a></li>
                     <li><a href="#photos" data-section="photos">Photos</a></li>
                     <li><a href="#videos" data-section="videos">Videos</a></li>
                     <li><a href="#timeline" data-section="timeline">Timeline</a></li>
                     <li><a href="#memories" data-section="memories">Love Note</a></li>
                 </ul>
-                <button id="logoutBtn" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
             </nav>
         </header>
 
@@ -244,12 +240,17 @@
         <audio id="bgMusic" loop preload="auto">
             <source src="d4vd - Here With Me.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
-        </audio>
-
-        <!-- Music Control Button -->
+        </audio>        <!-- Music Control Button -->
         <div id="musicControl" class="music-control">
             <button id="musicToggle" class="music-toggle" title="Toggle Background Music">
                 <i class="fas fa-music"></i>
+            </button>
+        </div>
+        
+        <!-- Logout Button -->
+        <div class="logout-control">
+            <button id="logoutBtn" class="logout-btn" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
             </button>
         </div>
     </div>

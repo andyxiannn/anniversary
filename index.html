@@ -57,7 +57,7 @@
                     <p class="hero-subtitle">Celebrating our beautiful journey together</p>
                     <div class="anniversary-date">
                         <i class="fas fa-calendar-heart"></i>
-                        <span>June 26, 2025</span>
+                        <span>September 29, 2025</span>
                     </div>
                     <div class="love-counter">
                         <div class="counter-item">
@@ -76,19 +76,35 @@
                     <img src="FavouritePhoto.JPG" alt="Our favorite memory together" class="favorite-photo">
                 </div>
             </div>
-            
-            <!-- Together Video Section -->
+              <!-- Together Video Section -->
             <div class="together-video-section">
                 <div class="container">
                     <h3 class="video-title">Our Journey Together 💕</h3>
-                    <div class="video-container">
+                    <div class="video-container" id="videoContainer">
                         <video controls class="together-video" poster="FavouritePhoto.JPG">
                             <source src="TogetherVideo.MP4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
+                        <div class="video-overlay" id="videoOverlay">
+                            <div class="play-button" id="playButton">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="fullscreen-hint">Click to watch in fullscreen</div>
+                        </div>
                     </div>
                 </div>
-            </div>        </section>
+            </div>
+
+        <!-- Video Modal -->
+        <div id="videoModal" class="video-modal">
+            <div class="video-modal-content">
+                <span class="video-modal-close" id="videoModalClose">&times;</span>
+                <video id="modalVideo" controls class="modal-video" poster="FavouritePhoto.JPG">
+                    <source src="TogetherVideo.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div></section>
 
         <!-- Photos Section -->
         <section id="photos" class="section">

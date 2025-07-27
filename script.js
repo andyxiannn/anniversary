@@ -91,8 +91,85 @@ function initializeMainVideoControls() {
             togetherVideo.addEventListener('ended', () => {
                 resumeBackgroundMusicIfWasPlaying();
             });
+        }    }, 100);
+    
+    // Setup video modal functionality
+    setupVideoModal();
+}
+
+function setupVideoModal() {
+    const videoContainer = document.getElementById('videoContainer');
+    const videoModal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalClose = document.getElementById('videoModalClose');
+    const togetherVideo = document.querySelector('.together-video');
+    
+    if (videoContainer && videoModal && modalVideo && modalClose && togetherVideo) {
+        // Open modal when clicking on video container
+        videoContainer.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Pause the original video
+            togetherVideo.pause();
+            
+            // Show modal
+            videoModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Sync the modal video with original video time
+            modalVideo.currentTime = togetherVideo.currentTime;
+            
+            // Auto-play the modal video
+            setTimeout(() => {
+                modalVideo.play().catch(e => console.log('Auto-play prevented:', e));
+            }, 300);
+        });
+        
+        // Close modal function
+        function closeModal() {
+            // Pause modal video
+            modalVideo.pause();
+            
+            // Sync the original video with modal video time
+            togetherVideo.currentTime = modalVideo.currentTime;
+            
+            // Hide modal
+            videoModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
-    }, 100);
+        
+        // Close modal when clicking close button
+        modalClose.addEventListener('click', closeModal);
+        
+        // Close modal when clicking outside video
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                closeModal();
+            }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && videoModal.style.display === 'block') {
+                closeModal();
+            }
+        });
+        
+        // Setup music pause/resume for modal video
+        modalVideo.addEventListener('play', () => {
+            pauseBackgroundMusicForVideo();
+        });
+        
+        modalVideo.addEventListener('pause', () => {
+            resumeBackgroundMusicIfWasPlaying();
+        });
+        
+        modalVideo.addEventListener('ended', () => {
+            resumeBackgroundMusicIfWasPlaying();
+            closeModal();
+        });
+    }
 }
 
 function setupEventListeners() {

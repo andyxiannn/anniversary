@@ -368,6 +368,22 @@ body {
     font-size: 1.1rem;
 }
 
+/* Favorite Photo Styling */
+.favorite-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: slideInRight 1s ease-out 0.8s both;
+}
+
+.favorite-photo:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
 /* Gallery Section */
 .gallery-grid {
     display: grid;
@@ -671,6 +687,58 @@ body {
     }
 }
 
+/* Together Video Section */
+.together-video-section {
+    padding: 4rem 0;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.video-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2rem;
+    font-family: 'Dancing Script', cursive;
+    position: relative;
+}
+
+.video-title::after {
+    content: '🎬';
+    position: absolute;
+    right: -50px;
+    top: 0;
+    font-size: 1.5rem;
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+.video-container {
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: slideInUp 1s ease-out;
+}
+
+.video-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+.together-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+}
+
+/* Video controls styling */
+.together-video::-webkit-media-controls-panel {
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .navbar {
@@ -753,5 +821,18 @@ body {
         background: rgba(0, 0, 0, 0.8);
         border-radius: 10px;
         margin-top: 2rem;
+    }
+    
+    .video-title::after {
+        right: -30px;
+        font-size: 1.2rem;
+    }
+    
+    .together-video-section {
+        padding: 2rem 0;
+    }
+    
+    .video-container {
+        margin: 0 1rem;
     }
 }

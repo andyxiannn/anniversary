@@ -1,6 +1,9 @@
 // Password configuration - Change this to your desired password
 const PASSWORD = "30092023"; // Change this to your secret password
 
+// Wrong password attempt counter
+let wrongAttempts = 0;
+
 // Authentication state
 let isAuthenticated = true;
 
@@ -199,15 +202,17 @@ function handleLogin(e) {
     const enteredPassword = passwordInput.value.trim();
     
     if (enteredPassword === PASSWORD) {
-        // Correct password
+        // Correct password - reset attempt counter
+        wrongAttempts = 0;
         sessionStorage.setItem('authenticated', 'true');
         showSuccessMessage();
         setTimeout(() => {
             showMainContent();
         }, 1000);
     } else {
-        // Wrong password
-        showErrorMessage('Incorrect password. Try again! 💕');
+        // Wrong password - increment counter and show hint
+        wrongAttempts++;
+        showPasswordHint();
         passwordInput.value = '';
         passwordInput.focus();
         
@@ -221,10 +226,37 @@ function handleLogin(e) {
 
 function handleLogout() {
     sessionStorage.removeItem('authenticated');
+    wrongAttempts = 0; // Reset wrong attempts on logout
     showLoginScreen();
     passwordInput.value = '';
     errorMessage.textContent = '';
     errorMessage.classList.remove('show');
+}
+
+function showPasswordHint() {
+    let hintMessage = '';
+    
+    switch(wrongAttempts) {
+        case 1:
+            hintMessage = 'Incorrect password. Try again! 💕';
+            break;
+        case 2:
+            hintMessage = 'Hmm, still not right. Think about a special date... 🤔💕';
+            break;
+        case 3:
+            hintMessage = 'Hint: It\'s a very important date for us! 📅💝';
+            break;
+        case 4:
+            hintMessage = 'Think about when we became official... 🌹✨';
+            break;        case 5:
+            hintMessage = 'It\'s our anniversary date! Format: DDMMYYYY 💕🎉';
+            break;
+        default:
+            hintMessage = 'Keep trying, my love! 💕';
+            break;
+    }
+    
+    showErrorMessage(hintMessage);
 }
 
 function showLoginScreen() {
@@ -247,7 +279,7 @@ function showErrorMessage(message) {
     
     setTimeout(() => {
         errorMessage.classList.remove('show');
-    }, 3000);
+    }, 8000);
 }
 
 function showSuccessMessage() {

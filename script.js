@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEventListeners();
     startCounters();
-    initializeGallery();
+    initializeMediaSections();
     initializeBackgroundMusic();
 });
 
@@ -73,6 +73,9 @@ function initializeApp() {
     
     // Initialize video event listeners for the main together video
     initializeMainVideoControls();
+    
+    // Load photos and videos for their respective sections
+    initializeMediaSections();
 }
 
 function initializeMainVideoControls() {
@@ -191,29 +194,7 @@ function handleNavigation(e) {
     e.target.classList.add('active');
 }
 
-function showSection(sectionId) {
-    // Stop all videos when switching sections
-    stopAllVideos();
-    
-    // Hide all sections
-    sections.forEach(section => {
-        section.classList.remove('active');
-    });
-    
-    // Show target section
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-        targetSection.classList.add('active');
-    }
-    
-    // Update active nav link
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('data-section') === sectionId) {
-            link.classList.add('active');
-        }
-    });
-}
+// showSection function moved below - enhanced version handles media loading
 
 function startCounters() {
     // Set your relationship start date here
@@ -454,7 +435,7 @@ function formatDate(date) {
 // Function to load photos
 function loadPhotos() {
     const photosGrid = document.getElementById('photos-grid');
-    const loading = document.getElementById('gallery-loading');
+    const loading = document.getElementById('photos-loading');
     
     loading.classList.add('show');
     photosGrid.innerHTML = '';    // Create photo items with estimated dates and sort by date (ascending - oldest first)
@@ -484,7 +465,7 @@ function loadPhotos() {
 // Function to load videos
 function loadVideos() {
     const videosGrid = document.getElementById('videos-grid');
-    const loading = document.getElementById('gallery-loading');
+    const loading = document.getElementById('videos-loading');
     
     loading.classList.add('show');
     videosGrid.innerHTML = '';    // Create video items with estimated dates and sort by date (ascending - oldest first)
@@ -629,37 +610,48 @@ function openLightbox(src, title, subtitle, type) {
     }
 }
 
-// Gallery navigation
-function initializeGallery() {
-    const galleryNavBtns = document.querySelectorAll('.gallery-nav-btn');
-    const galleryContents = document.querySelectorAll('.gallery-content');
+// Initialize media sections
+function initializeMediaSections() {
+    // Photos will be loaded when the photos section is first visited
+    // Videos will be loaded when the videos section is first visited
+    // This is handled in the showSection function
+}
+
+// Enhanced showSection function to handle media loading
+function showSection(sectionId) {
+    // Stop all videos when switching sections
+    stopAllVideos();
     
-    // Load photos by default
-    loadPhotos();
+    // Hide all sections
+    sections.forEach(section => {
+        section.classList.remove('active');
+    });
     
-    galleryNavBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const galleryType = btn.getAttribute('data-gallery');
-            
-            // Update active button
-            galleryNavBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Update active content
-            galleryContents.forEach(content => content.classList.remove('active'));
-            
-            if (galleryType === 'photos') {
-                document.getElementById('photos-gallery').classList.add('active');
-                if (document.getElementById('photos-grid').children.length === 0) {
-                    loadPhotos();
-                }
-            } else if (galleryType === 'videos') {
-                document.getElementById('videos-gallery').classList.add('active');
-                if (document.getElementById('videos-grid').children.length === 0) {
-                    loadVideos();
-                }
+    // Show target section
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        
+        // Load media content when section is shown for the first time
+        if (sectionId === 'photos') {
+            const photosGrid = document.getElementById('photos-grid');
+            if (photosGrid && photosGrid.children.length === 0) {
+                loadPhotos();
             }
-        });
+        } else if (sectionId === 'videos') {
+            const videosGrid = document.getElementById('videos-grid');
+            if (videosGrid && videosGrid.children.length === 0) {
+                loadVideos();
+            }
+        }
+    }
+    
+    // Update active nav link
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('data-section') === sectionId) {
+            link.classList.add('active');
+        }
     });
 }
 

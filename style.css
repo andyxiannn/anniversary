@@ -1072,3 +1072,12 @@ body {
         font-size: 1.5rem;
     }
 }
+
+/* Additional styles for separate Photos and Videos sections */
+#photos .section-title::after {
+    content: '📸';
+}
+
+#videos .section-title::after {
+    content: '🎬';
+}

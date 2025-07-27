@@ -42,7 +42,8 @@
             <nav class="navbar">
                 <h1 class="logo">Our Love Story</h1>                <ul class="nav-links">
                     <li><a href="#home" data-section="home">Home</a></li>
-                    <li><a href="#gallery" data-section="gallery">Gallery</a></li>
+                    <li><a href="#photos" data-section="photos">Photos</a></li>
+                    <li><a href="#videos" data-section="videos">Videos</a></li>
                     <li><a href="#timeline" data-section="timeline">Timeline</a></li>
                     <li><a href="#memories" data-section="memories">Love Note</a></li>
                 </ul>
@@ -91,42 +92,40 @@
                         </video>
                     </div>
                 </div>
-            </div>
-        </section><!-- Gallery Section -->
-        <section id="gallery" class="section">
-            <div class="container">
-                <h2 class="section-title">Our Beautiful Moments</h2>
-                
-                <!-- Gallery Navigation -->
-                <div class="gallery-nav">
-                    <button class="gallery-nav-btn active" data-gallery="photos">
-                        <i class="fas fa-camera"></i>
-                        Photos
-                    </button>
-                    <button class="gallery-nav-btn" data-gallery="videos">
-                        <i class="fas fa-video"></i>
-                        Videos
-                    </button>
-                </div>
+            </div>        </section>
 
+        <!-- Photos Section -->
+        <section id="photos" class="section">
+            <div class="container">
+                <h2 class="section-title">Our Beautiful Photos</h2>
+                
                 <!-- Loading indicator -->
-                <div id="gallery-loading" class="gallery-loading">
+                <div id="photos-loading" class="gallery-loading">
                     <i class="fas fa-heart"></i>
-                    <p>Loading our precious memories...</p>
+                    <p>Loading our precious photo memories...</p>
                 </div>
 
                 <!-- Photos Gallery -->
-                <div id="photos-gallery" class="gallery-content active">
-                    <div class="gallery-grid" id="photos-grid">
-                        <!-- Photos will be loaded dynamically -->
-                    </div>
+                <div class="gallery-grid" id="photos-grid">
+                    <!-- Photos will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Videos Section -->
+        <section id="videos" class="section">
+            <div class="container">
+                <h2 class="section-title">Our Amazing Videos</h2>
+                
+                <!-- Loading indicator -->
+                <div id="videos-loading" class="gallery-loading">
+                    <i class="fas fa-heart"></i>
+                    <p>Loading our precious video memories...</p>
                 </div>
 
                 <!-- Videos Gallery -->
-                <div id="videos-gallery" class="gallery-content">
-                    <div class="gallery-grid videos-grid" id="videos-grid">
-                        <!-- Videos will be loaded dynamically -->
-                    </div>
+                <div class="gallery-grid videos-grid" id="videos-grid">
+                    <!-- Videos will be loaded dynamically -->
                 </div>
             </div>
         </section>        <!-- Timeline Section -->

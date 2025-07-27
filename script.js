@@ -26,8 +26,7 @@ const VIDEO_FOLDER = './Videos/';
 // File lists - updated with actual filenames containing dates
 const PHOTO_FILES = [
     'First Date with Cookies_18092023.JPEG',
-    'First time bring you to meet my parents_03122023.JPG',
-    'Flower for your Birthday_30102023.JPG',
+    'First time bring you to meet my parents_03122023.JPG',    'Flower for your Birthday_30102023.JPG',
     'Our anniversary 2_29092024.JPEG',
     'Our anniversary 3_29092024.JPG',
     'Our anniversary_29092024.JPEG',
@@ -37,7 +36,7 @@ const PHOTO_FILES = [
     'Our first drawing_07112024.JPG',
     'Our first Golf_02062024.JPG',
     'Our first hiking_05112023.JPG',
-    'Our first Oranges_09112024.JPEG',
+    'Our first Tangerines_09112024.JPEG',
     'Our first ourdoor photograph_07122023.JPEG',
     'Our first time attending wedding_08032025.JPG',
     'Our first time roller skate together_08122023.JPG',
@@ -472,10 +471,10 @@ function getDescriptionFromFilename(filename) {
     
     multiWordReplacements.forEach(replacement => {
         description = description.replace(replacement.from, replacement.to);
-    });
-    
-    // Step 2: Handle other terms (not Our/Your)
+    });    // Step 2: Handle other terms (not Our/Your)
     const otherReplacements = [
+        { from: /anniversary 2/gi, to: '🎉 Anniversary Celebration' },
+        { from: /anniversary 3/gi, to: '🎉 Anniversary Memories' },
         { from: /anniversary/gi, to: '🎉 Anniversary' },
         { from: /Birthday/gi, to: '🎂 Birthday' },
         { from: /Valentine/gi, to: '💝 Valentine\'s Day' },
@@ -494,7 +493,7 @@ function getDescriptionFromFilename(filename) {
         { from: /Cookies/gi, to: '🍪 Cookies' },
         { from: /Flower/gi, to: '🌸 Flowers' },        { from: /parents/gi, to: '👨‍👩‍👧‍👦 Parents' },
         { from: /Bridge/gi, to: '🌉 Bridge' },
-        { from: /Oranges/gi, to: '🍊 Oranges' },
+        { from: /Tangerines/gi, to: '🍊 Tangerines' },
         { from: /photograph/gi, to: '📸 Photography' },
         { from: /Together/gi, to: '💕 Together' }
     ];

@@ -572,6 +572,22 @@ function getEstimatedDate(filename) {
         return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     }
     
+    // Special handling for video files without date suffixes
+    const lowerFilename = filename.toLowerCase();
+    
+    // Map specific video files to their actual dates
+    if (lowerFilename.includes('anniverssary') || lowerFilename.includes('anniversary')) {
+        return new Date(2024, 8, 29); // September 29, 2024 (anniversary date)
+    }
+    
+    if (lowerFilename.includes('jeju')) {
+        return new Date(2024, 10, 3); // November 3, 2024 (Korea trip date)
+    }
+    
+    if (lowerFilename.includes('silver grass')) {
+        return new Date(2024, 10, 3); // November 3, 2024 (same Korea trip)
+    }
+    
     // Fallback for files without date suffix
     return new Date('2023-10-01');
 }
@@ -897,6 +913,9 @@ function initializeBackgroundMusic() {
             console.log('Background music failed to load:', e);
             musicToggle.style.display = 'none'; // Hide button if music fails to load
         });
+        
+        // Handle page visibility changes (when app goes to background)
+        setupPageVisibilityHandlers();
     }
 }
 
@@ -959,4 +978,65 @@ function resumeBackgroundMusicIfWasPlaying() {
         playBackgroundMusic();
         wasMusicPlayingBeforeVideo = false;
     }
+}
+
+// Handle page visibility changes for mobile background/foreground behavior
+let wasMusicPlayingBeforeHidden = false;
+
+function setupPageVisibilityHandlers() {
+    // Handle when page becomes hidden (app goes to background on mobile)
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            // Page is now hidden (app went to background)
+            if (isMusicPlaying) {
+                wasMusicPlayingBeforeHidden = true;
+                pauseBackgroundMusic();
+                console.log('Background music paused - app went to background');
+            }
+        } else {
+            // Page is now visible (app came back to foreground)
+            if (wasMusicPlayingBeforeHidden && !isMusicPlaying) {
+                // Small delay to ensure smooth transition
+                setTimeout(() => {
+                    playBackgroundMusic();
+                    wasMusicPlayingBeforeHidden = false;
+                    console.log('Background music resumed - app came to foreground');
+                }, 300);
+            }
+        }
+    });
+    
+    // Additional handlers for iOS Safari
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted && wasMusicPlayingBeforeHidden && !isMusicPlaying) {
+            setTimeout(() => {
+                playBackgroundMusic();
+                wasMusicPlayingBeforeHidden = false;
+            }, 300);
+        }
+    });
+    
+    window.addEventListener('pagehide', () => {
+        if (isMusicPlaying) {
+            wasMusicPlayingBeforeHidden = true;
+            pauseBackgroundMusic();
+        }
+    });
+    
+    // Handle blur/focus events as additional fallback
+    window.addEventListener('blur', () => {
+        if (isMusicPlaying) {
+            wasMusicPlayingBeforeHidden = true;
+            pauseBackgroundMusic();
+        }
+    });
+    
+    window.addEventListener('focus', () => {
+        if (wasMusicPlayingBeforeHidden && !isMusicPlaying) {
+            setTimeout(() => {
+                playBackgroundMusic();
+                wasMusicPlayingBeforeHidden = false;
+            }, 300);
+        }
+    });
 }

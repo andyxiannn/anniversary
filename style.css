@@ -243,11 +243,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0.3; /* Reduced visibility by default */
 }
 
 .logout-btn:hover {
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 15px 40px rgba(220, 53, 69, 0.4);
+    opacity: 1; /* Fully visible on hover */
 }
 
 /* Main Content */
@@ -1520,6 +1522,17 @@ body {
         font-size: 1.2rem;
     }
     
+    .logout-control {
+        bottom: 20px;
+        left: 20px;
+    }
+    
+    .logout-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
     .timeline-item.milestone .timeline-content {
         transform: scale(1) !important;
         padding: 1.2rem;
@@ -1701,6 +1714,17 @@ body {
     }
     
     .music-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .logout-control {
+        bottom: 20px;
+        left: 20px;
+    }
+    
+    .logout-btn {
         width: 50px;
         height: 50px;
         font-size: 1.2rem;

@@ -85,72 +85,40 @@
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Gallery Section -->
+        </section>        <!-- Gallery Section -->
         <section id="gallery" class="section">
             <div class="container">
                 <h2 class="section-title">Our Beautiful Moments</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <p>Photo 1</p>
-                        </div>
-                        <div class="overlay">
-                            <h3>First Date</h3>
-                            <p>The beginning of our story</p>
-                        </div>
+                
+                <!-- Gallery Navigation -->
+                <div class="gallery-nav">
+                    <button class="gallery-nav-btn active" data-gallery="photos">
+                        <i class="fas fa-camera"></i>
+                        Photos
+                    </button>
+                    <button class="gallery-nav-btn" data-gallery="videos">
+                        <i class="fas fa-video"></i>
+                        Videos
+                    </button>
+                </div>
+
+                <!-- Loading indicator -->
+                <div id="gallery-loading" class="gallery-loading">
+                    <i class="fas fa-heart"></i>
+                    <p>Loading our precious memories...</p>
+                </div>
+
+                <!-- Photos Gallery -->
+                <div id="photos-gallery" class="gallery-content active">
+                    <div class="gallery-grid" id="photos-grid">
+                        <!-- Photos will be loaded dynamically -->
                     </div>
-                    <div class="gallery-item">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <p>Photo 2</p>
-                        </div>
-                        <div class="overlay">
-                            <h3>First Trip</h3>
-                            <p>Adventures together</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <p>Photo 3</p>
-                        </div>
-                        <div class="overlay">
-                            <h3>Special Moment</h3>
-                            <p>Unforgettable memories</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <p>Photo 4</p>
-                        </div>
-                        <div class="overlay">
-                            <h3>Celebration</h3>
-                            <p>Happy times</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <p>Photo 5</p>
-                        </div>
-                        <div class="overlay">
-                            <h3>Recent Memory</h3>
-                            <p>Latest adventure</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <p>Photo 6</p>
-                        </div>
-                        <div class="overlay">
-                            <h3>Today</h3>
-                            <p>Still in love</p>
-                        </div>
+                </div>
+
+                <!-- Videos Gallery -->
+                <div id="videos-gallery" class="gallery-content">
+                    <div class="gallery-grid videos-grid" id="videos-grid">
+                        <!-- Videos will be loaded dynamically -->
                     </div>
                 </div>
             </div>

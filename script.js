@@ -16,11 +16,51 @@ const logoutBtn = document.getElementById('logoutBtn');
 const navLinks = document.querySelectorAll('.nav-links a');
 const sections = document.querySelectorAll('.section');
 
+// Gallery configuration
+const PHOTO_FOLDER = './Photo/';
+const VIDEO_FOLDER = './Videos/';
+
+// File lists - you can update these arrays with your actual filenames
+const PHOTO_FILES = [
+    'First Date with Cookies.JPEG',
+    'First time bring you to meet my parents.JPG',
+    'Flower for your Birthday.JPG',
+    'Our anniversary 2.JPEG',
+    'Our anniversary 3.JPG',
+    'Our anniversary.JPEG',
+    'Our first concert with DuaLipa.JPG',
+    'Our First Date at Penang Bridge.JPG',
+    'Our first drawing.JPG',
+    'Our first Golf.JPG',
+    'Our first hiking.JPG',
+    'Our first Oranges.JPEG',
+    'Our first ourdoor photograph.JPEG',
+    'Our first time attending wedding.JPG',
+    'Our first time roller skate together.JPG',
+    'Our first time went to farm.JPG',
+    'Our first time won prize in Pesta.JPG',
+    'Our first trip to Korea.JPG',
+    'Our First Valentines 2024.JPG',
+    'Our official First Date.JPG',
+    'Our picnic with Cookies.JPG',
+    'Our Valentine 2025.JPG',
+    'Your first Birthday after togerther.JPG',
+    'Your First hand-made mooncake.jpg'
+];
+
+const VIDEO_FILES = [
+    'Anniverssary.MP4',
+    'Jeju Hike.MP4',
+    'Silver Grass Jeju.MP4',
+    'Together - From 2023 – 2024.MP4'
+];
+
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEventListeners();
     startCounters();
+    initializeGallery();
 });
 
 function initializeApp() {
@@ -289,3 +329,289 @@ document.addEventListener('keydown', function(e) {
         e.preventDefault();
     }
 });
+
+// Function to extract description from filename
+function getDescriptionFromFilename(filename) {
+    // Remove file extension
+    const nameWithoutExt = filename.replace(/\.[^/.]+$/, "");
+    
+    // Create a more natural description
+    let description = nameWithoutExt
+        .replace(/Our first/gi, '💕 Our first')
+        .replace(/Our/gi, '💑 Our')
+        .replace(/Your/gi, '🥰 Your')
+        .replace(/First Date/gi, '💕 First Date')
+        .replace(/anniversary/gi, '🎉 Anniversary')
+        .replace(/Birthday/gi, '🎂 Birthday')
+        .replace(/Valentine/gi, '💝 Valentine\'s Day')
+        .replace(/wedding/gi, '💒 Wedding')
+        .replace(/concert/gi, '🎵 Concert')
+        .replace(/hiking/gi, '🥾 Hiking Adventure')
+        .replace(/trip/gi, '✈️ Trip')
+        .replace(/Korea/gi, '🇰🇷 Korea')
+        .replace(/Jeju/gi, '🏝️ Jeju Island')
+        .replace(/picnic/gi, '🧺 Picnic')
+        .replace(/drawing/gi, '🎨 Drawing')
+        .replace(/Golf/gi, '⛳ Golf')
+        .replace(/farm/gi, '🚜 Farm Visit')
+        .replace(/roller skate/gi, '⛸️ Roller Skating')
+        .replace(/Pesta/gi, '🏆 Pesta Competition')
+        .replace(/mooncake/gi, '🥮 Mooncake Making')
+        .replace(/Cookies/gi, '🍪 Cookies')
+        .replace(/Flower/gi, '🌸 Flowers')
+        .replace(/parents/gi, '👨‍👩‍👧‍👦 Parents')
+        .replace(/Bridge/gi, '🌉 Bridge')
+        .replace(/Oranges/gi, '🍊 Oranges')
+        .replace(/photograph/gi, '📸 Photography')
+        .replace(/Silver Grass/gi, '🌾 Silver Grass Field')
+        .replace(/Together/gi, '💕 Together');
+    
+    // Clean up any extra spaces
+    description = description.replace(/\s+/g, ' ').trim();
+    
+    return description;
+}
+
+// Function to get romantic subtitle based on filename
+function getSubtitleFromFilename(filename) {
+    const name = filename.toLowerCase();
+    
+    if (name.includes('first date')) return 'Where our love story began ✨';
+    if (name.includes('anniversary')) return 'Celebrating our love 💖';
+    if (name.includes('valentine')) return 'A day of romance and love 💕';
+    if (name.includes('birthday')) return 'Making your special day magical 🎉';
+    if (name.includes('parents')) return 'Meeting the family 👨‍👩‍👧‍👦';
+    if (name.includes('wedding')) return 'Celebrating love together 💒';
+    if (name.includes('korea') || name.includes('jeju')) return 'Adventures in beautiful Korea 🇰🇷';
+    if (name.includes('hiking')) return 'Conquering heights together ⛰️';
+    if (name.includes('concert')) return 'Music and memories 🎵';
+    if (name.includes('golf')) return 'Sporting fun together ⛳';
+    if (name.includes('farm')) return 'Country life adventures 🌾';
+    if (name.includes('picnic')) return 'Perfect outdoor moments 🧺';
+    if (name.includes('roller skate')) return 'Rolling into fun times ⛸️';
+    if (name.includes('drawing')) return 'Creating art together 🎨';
+    if (name.includes('mooncake')) return 'Homemade with love 🥮';
+    if (name.includes('cookies')) return 'Sweet treats and sweeter moments 🍪';
+    if (name.includes('flower')) return 'Blooming with love 🌸';
+    if (name.includes('together')) return 'Our journey through time 💕';
+    
+    return 'Another beautiful memory we share 💝';
+}
+
+// Function to estimate date from filename (you can customize this)
+function getEstimatedDate(filename) {
+    const name = filename.toLowerCase();
+    
+    // Extract year if present
+    if (name.includes('2024')) return new Date('2024-02-14');
+    if (name.includes('2025')) return new Date('2025-02-14');
+    
+    // Estimate based on content
+    if (name.includes('first date') && !name.includes('penang')) return new Date('2023-09-30');
+    if (name.includes('penang')) return new Date('2023-10-15');
+    if (name.includes('parents')) return new Date('2023-11-20');
+    if (name.includes('valentine') && name.includes('2024')) return new Date('2024-02-14');
+    if (name.includes('valentine') && name.includes('2025')) return new Date('2025-02-14');
+    if (name.includes('birthday')) return new Date('2024-06-15');
+    if (name.includes('anniversary')) return new Date('2024-09-30');
+    if (name.includes('korea')) return new Date('2024-08-15');
+    if (name.includes('christmas')) return new Date('2023-12-25');
+    
+    // Default to a random date in 2024
+    return new Date('2024-' + String(Math.floor(Math.random() * 12) + 1).padStart(2, '0') + '-15');
+}
+
+// Function to format date for display
+function formatDate(date) {
+    return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+}
+
+// Function to load photos
+function loadPhotos() {
+    const photosGrid = document.getElementById('photos-grid');
+    const loading = document.getElementById('gallery-loading');
+    
+    loading.classList.add('show');
+    photosGrid.innerHTML = '';
+    
+    // Create photo items with estimated dates and sort by date
+    const photoItems = PHOTO_FILES.map(filename => ({
+        filename,
+        date: getEstimatedDate(filename),
+        description: getDescriptionFromFilename(filename),
+        subtitle: getSubtitleFromFilename(filename)
+    })).sort((a, b) => a.date - b.date);
+    
+    setTimeout(() => {
+        photoItems.forEach((item, index) => {
+            const galleryItem = createPhotoItem(item, index);
+            photosGrid.appendChild(galleryItem);
+        });
+        
+        loading.classList.remove('show');
+    }, 500);
+}
+
+// Function to load videos
+function loadVideos() {
+    const videosGrid = document.getElementById('videos-grid');
+    const loading = document.getElementById('gallery-loading');
+    
+    loading.classList.add('show');
+    videosGrid.innerHTML = '';
+    
+    // Create video items with estimated dates and sort by date
+    const videoItems = VIDEO_FILES.map(filename => ({
+        filename,
+        date: getEstimatedDate(filename),
+        description: getDescriptionFromFilename(filename),
+        subtitle: getSubtitleFromFilename(filename)
+    })).sort((a, b) => a.date - b.date);
+    
+    setTimeout(() => {
+        videoItems.forEach((item, index) => {
+            const galleryItem = createVideoItem(item, index);
+            videosGrid.appendChild(galleryItem);
+        });
+        
+        loading.classList.remove('show');
+    }, 500);
+}
+
+// Function to create photo item
+function createPhotoItem(item, index) {
+    const galleryItem = document.createElement('div');
+    galleryItem.className = 'gallery-item';
+    galleryItem.style.animationDelay = `${index * 0.1}s`;
+    
+    galleryItem.innerHTML = `
+        <div class="media-container">
+            <img src="${PHOTO_FOLDER}${item.filename}" alt="${item.description}" loading="lazy">
+            <div class="overlay">
+                <h3>${item.description}</h3>
+                <p>${item.subtitle}</p>
+                <div class="date-info">${formatDate(item.date)}</div>
+            </div>
+        </div>
+    `;
+    
+    // Add click handler for lightbox
+    galleryItem.addEventListener('click', () => {
+        openLightbox(PHOTO_FOLDER + item.filename, item.description, item.subtitle, 'image');
+    });
+    
+    return galleryItem;
+}
+
+// Function to create video item
+function createVideoItem(item, index) {
+    const galleryItem = document.createElement('div');
+    galleryItem.className = 'gallery-item';
+    galleryItem.style.animationDelay = `${index * 0.1}s`;
+    
+    galleryItem.innerHTML = `
+        <div class="media-container">
+            <video preload="metadata">
+                <source src="${VIDEO_FOLDER}${item.filename}" type="video/mp4">
+            </video>
+            <div class="video-overlay">
+                <i class="fas fa-play"></i>
+            </div>
+            <div class="overlay">
+                <h3>${item.description}</h3>
+                <p>${item.subtitle}</p>
+                <div class="date-info">${formatDate(item.date)}</div>
+            </div>
+        </div>
+    `;
+    
+    // Add click handler for lightbox
+    galleryItem.addEventListener('click', () => {
+        openLightbox(VIDEO_FOLDER + item.filename, item.description, item.subtitle, 'video');
+    });
+    
+    return galleryItem;
+}
+
+// Lightbox functionality
+function openLightbox(src, title, subtitle, type) {
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    
+    const mediaElement = type === 'video' 
+        ? `<video controls autoplay><source src="${src}" type="video/mp4"></video>`
+        : `<img src="${src}" alt="${title}">`;
+    
+    lightbox.innerHTML = `
+        <div class="lightbox-content">
+            ${mediaElement}
+            <button class="lightbox-close">&times;</button>
+            <div class="lightbox-info">
+                <h3>${title}</h3>
+                <p>${subtitle}</p>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(lightbox);
+    setTimeout(() => lightbox.classList.add('show'), 10);
+    
+    // Close handlers
+    lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+    
+    // ESC key handler
+    document.addEventListener('keydown', handleEscKey);
+    
+    function closeLightbox() {
+        lightbox.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(lightbox);
+            document.removeEventListener('keydown', handleEscKey);
+        }, 300);
+    }
+    
+    function handleEscKey(e) {
+        if (e.key === 'Escape') closeLightbox();
+    }
+}
+
+// Gallery navigation
+function initializeGallery() {
+    const galleryNavBtns = document.querySelectorAll('.gallery-nav-btn');
+    const galleryContents = document.querySelectorAll('.gallery-content');
+    
+    // Load photos by default
+    loadPhotos();
+    
+    galleryNavBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const galleryType = btn.getAttribute('data-gallery');
+            
+            // Update active button
+            galleryNavBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Update active content
+            galleryContents.forEach(content => content.classList.remove('active'));
+            
+            if (galleryType === 'photos') {
+                document.getElementById('photos-gallery').classList.add('active');
+                if (document.getElementById('photos-grid').children.length === 0) {
+                    loadPhotos();
+                }
+            } else if (galleryType === 'videos') {
+                document.getElementById('videos-gallery').classList.add('active');
+                if (document.getElementById('videos-grid').children.length === 0) {
+                    loadVideos();
+                }
+            }
+        });
+    });
+}

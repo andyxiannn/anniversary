@@ -885,10 +885,9 @@ let wasMusicPlayingBeforeVideo = false;
 function initializeBackgroundMusic() {
     bgMusic = document.getElementById('bgMusic');
     musicToggle = document.getElementById('musicToggle');
-    
-    if (bgMusic && musicToggle) {
-        // Set initial volume (not too loud)
-        bgMusic.volume = 0.3;
+      if (bgMusic && musicToggle) {
+        // Set initial volume (reduced by 50%)
+        bgMusic.volume = 0.15;
         
         // Music toggle button event
         musicToggle.addEventListener('click', toggleBackgroundMusic);

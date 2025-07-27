@@ -28,6 +28,7 @@ const PHOTO_FILES = [
     'Our anniversary 2_29092024.JPEG',
     'Our anniversary 3_29092024.JPG',
     'Our anniversary_29092024.JPEG',
+    'Our first Arcade at First Avenue_18052025.jpeg',
     'Our first concert with DuaLipa_24112024.JPG',
     'Our First Date at Penang Bridge_07102023.JPG',
     'Our first drawing_07112024.JPG',

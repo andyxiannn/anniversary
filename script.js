@@ -70,6 +70,27 @@ function initializeApp() {
     } else {
         showLoginScreen();
     }
+    
+    // Initialize video event listeners for the main together video
+    initializeMainVideoControls();
+}
+
+function initializeMainVideoControls() {
+    // Add event listeners to the main together video
+    setTimeout(() => {
+        const togetherVideo = document.querySelector('.together-video');
+        if (togetherVideo) {
+            togetherVideo.addEventListener('play', () => {
+                pauseBackgroundMusicForVideo();
+            });
+            togetherVideo.addEventListener('pause', () => {
+                resumeBackgroundMusicIfWasPlaying();
+            });
+            togetherVideo.addEventListener('ended', () => {
+                resumeBackgroundMusicIfWasPlaying();
+            });
+        }
+    }, 100);
 }
 
 function setupEventListeners() {
@@ -159,6 +180,10 @@ function handleNavigation(e) {
     e.preventDefault();
     
     const targetSection = e.target.getAttribute('data-section');
+    
+    // Stop all videos when navigating
+    stopAllVideos();
+    
     showSection(targetSection);
     
     // Update active nav link
@@ -167,6 +192,9 @@ function handleNavigation(e) {
 }
 
 function showSection(sectionId) {
+    // Stop all videos when switching sections
+    stopAllVideos();
+    
     // Hide all sections
     sections.forEach(section => {
         section.classList.remove('active');
@@ -554,6 +582,21 @@ function openLightbox(src, title, subtitle, type) {
     
     document.body.appendChild(lightbox);
     setTimeout(() => lightbox.classList.add('show'), 10);
+      // Handle video events for background music control
+    if (type === 'video') {
+        const video = lightbox.querySelector('video');
+        if (video) {
+            video.addEventListener('play', () => {
+                pauseBackgroundMusicForVideo();
+            });
+            video.addEventListener('pause', () => {
+                resumeBackgroundMusicIfWasPlaying();
+            });
+            video.addEventListener('ended', () => {
+                resumeBackgroundMusicIfWasPlaying();
+            });
+        }
+    }
     
     // Close handlers
     lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
@@ -565,6 +608,15 @@ function openLightbox(src, title, subtitle, type) {
     document.addEventListener('keydown', handleEscKey);
     
     function closeLightbox() {
+        // Stop any playing video and resume background music
+        if (type === 'video') {
+            const video = lightbox.querySelector('video');
+            if (video && !video.paused) {
+                video.pause();
+                resumeBackgroundMusicIfWasPlaying();
+            }
+        }
+        
         lightbox.classList.remove('show');
         setTimeout(() => {
             document.body.removeChild(lightbox);
@@ -611,10 +663,40 @@ function initializeGallery() {
     });
 }
 
+// Video Control Functions
+function stopAllVideos() {
+    // Stop videos in gallery
+    const galleryVideos = document.querySelectorAll('.gallery-item video, .videos-grid video');
+    galleryVideos.forEach(video => {
+        if (!video.paused) {
+            video.pause();
+            video.currentTime = 0;
+        }
+    });
+    
+    // Stop video in lightbox if any
+    const lightboxVideo = document.querySelector('.lightbox video');
+    if (lightboxVideo && !lightboxVideo.paused) {
+        lightboxVideo.pause();
+        lightboxVideo.currentTime = 0;
+    }
+    
+    // Stop the main together video on home page
+    const togetherVideo = document.querySelector('.together-video');
+    if (togetherVideo && !togetherVideo.paused) {
+        togetherVideo.pause();
+        togetherVideo.currentTime = 0;
+    }
+    
+    // Resume background music if it was playing before
+    resumeBackgroundMusicIfWasPlaying();
+}
+
 // Background Music Control
 let bgMusic = null;
 let musicToggle = null;
 let isMusicPlaying = false;
+let wasMusicPlayingBeforeVideo = false;
 
 function initializeBackgroundMusic() {
     bgMusic = document.getElementById('bgMusic');
@@ -693,5 +775,20 @@ function pauseBackgroundMusic() {
 function adjustMusicVolume(volume) {
     if (bgMusic) {
         bgMusic.volume = Math.max(0, Math.min(1, volume));
+    }
+}
+
+// Enhanced background music control for video interactions
+function pauseBackgroundMusicForVideo() {
+    if (bgMusic && isMusicPlaying) {
+        wasMusicPlayingBeforeVideo = true;
+        pauseBackgroundMusic();
+    }
+}
+
+function resumeBackgroundMusicIfWasPlaying() {
+    if (bgMusic && wasMusicPlayingBeforeVideo && !isMusicPlaying) {
+        playBackgroundMusic();
+        wasMusicPlayingBeforeVideo = false;
     }
 }

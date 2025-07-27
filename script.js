@@ -51,8 +51,7 @@ const PHOTO_FILES = [
 const VIDEO_FILES = [
     'Anniverssary.MP4',
     'Jeju Hike.MP4',
-    'Silver Grass Jeju.MP4',
-    'Together - From 2023 – 2024.MP4'
+    'Silver Grass Jeju.MP4'
 ];
 
 // Initialize the app
@@ -61,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     startCounters();
     initializeGallery();
+    initializeBackgroundMusic();
 });
 
 function initializeApp() {
@@ -609,4 +609,89 @@ function initializeGallery() {
             }
         });
     });
+}
+
+// Background Music Control
+let bgMusic = null;
+let musicToggle = null;
+let isMusicPlaying = false;
+
+function initializeBackgroundMusic() {
+    bgMusic = document.getElementById('bgMusic');
+    musicToggle = document.getElementById('musicToggle');
+    
+    if (bgMusic && musicToggle) {
+        // Set initial volume (not too loud)
+        bgMusic.volume = 0.3;
+        
+        // Music toggle button event
+        musicToggle.addEventListener('click', toggleBackgroundMusic);
+        
+        // Auto-play music when user first interacts with the site
+        document.addEventListener('click', startMusicOnFirstInteraction, { once: true });
+        
+        // Handle music ended event (though it should loop)
+        bgMusic.addEventListener('ended', () => {
+            if (isMusicPlaying) {
+                bgMusic.currentTime = 0;
+                bgMusic.play().catch(e => console.log('Music play failed:', e));
+            }
+        });
+        
+        // Handle music loading
+        bgMusic.addEventListener('canplaythrough', () => {
+            console.log('Background music loaded successfully');
+        });
+        
+        bgMusic.addEventListener('error', (e) => {
+            console.log('Background music failed to load:', e);
+            musicToggle.style.display = 'none'; // Hide button if music fails to load
+        });
+    }
+}
+
+function startMusicOnFirstInteraction() {
+    if (bgMusic && !isMusicPlaying) {
+        playBackgroundMusic();
+    }
+}
+
+function toggleBackgroundMusic() {
+    if (isMusicPlaying) {
+        pauseBackgroundMusic();
+    } else {
+        playBackgroundMusic();
+    }
+}
+
+function playBackgroundMusic() {
+    if (bgMusic) {
+        bgMusic.play().then(() => {
+            isMusicPlaying = true;
+            musicToggle.classList.add('playing');
+            musicToggle.classList.remove('muted');
+            musicToggle.title = 'Pause Background Music';
+            console.log('Background music started');
+        }).catch(e => {
+            console.log('Failed to play background music:', e);
+        });
+    }
+}
+
+function pauseBackgroundMusic() {
+    if (bgMusic) {
+        bgMusic.pause();
+        isMusicPlaying = false;
+        musicToggle.classList.remove('playing');
+        musicToggle.classList.add('muted');
+        musicToggle.title = 'Play Background Music';
+        console.log('Background music paused');
+    }
+}
+
+// Volume control functions
+function adjustMusicVolume(volume) {
+    if (bgMusic) {
+        bgMusic.volume = Math.max(0, Math.min(1, volume));
+    }
 }

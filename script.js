@@ -546,6 +546,12 @@ function openLightbox(src, title, subtitle, type) {
     const lightbox = document.createElement('div');
     lightbox.className = 'lightbox';
     
+    // Detect mobile device
+    const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        lightbox.classList.add('mobile-lightbox');
+    }
+    
     const mediaElement = type === 'video' 
         ? `<video controls autoplay><source src="${src}" type="video/mp4"></video>`
         : `<img src="${src}" alt="${title}">`;

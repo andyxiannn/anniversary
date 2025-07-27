@@ -669,11 +669,11 @@ function createVideoItem(item, index) {
     const galleryItem = document.createElement('div');
     galleryItem.className = 'gallery-item';
     galleryItem.style.animationDelay = `${index * 0.1}s`;
-    
-    galleryItem.innerHTML = `
+      galleryItem.innerHTML = `
         <div class="media-container">
-            <video preload="metadata">
+            <video preload="metadata" muted playsinline poster="">
                 <source src="${VIDEO_FOLDER}${item.filename}" type="video/mp4">
+                Your browser does not support the video tag.
             </video>
             <div class="video-overlay">
                 <i class="fas fa-play"></i>
@@ -685,11 +685,28 @@ function createVideoItem(item, index) {
             </div>
         </div>
     `;
-    
-    // Add click handler for lightbox
+      // Add click handler for lightbox
     galleryItem.addEventListener('click', () => {
         openLightbox(VIDEO_FOLDER + item.filename, item.description, item.subtitle, 'video');
     });
+    
+    // Force video thumbnail generation
+    const video = galleryItem.querySelector('video');
+    if (video) {
+        video.addEventListener('loadedmetadata', () => {
+            // Set video to a frame that's likely to have content (1 second in)
+            video.currentTime = 1;
+        });
+        
+        video.addEventListener('seeked', () => {
+            // Video should now show the thumbnail at 1 second
+        });
+        
+        // Handle video loading errors
+        video.addEventListener('error', (e) => {
+            console.log('Video loading error for:', item.filename, e);
+        });
+    }
     
     return galleryItem;
 }

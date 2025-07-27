@@ -1,8 +1,8 @@
 // Password configuration - Change this to your desired password
-const PASSWORD = "ourlove2025"; // Change this to your secret password
+const PASSWORD = "30092023"; // Change this to your secret password
 
 // Authentication state
-let isAuthenticated = false;
+let isAuthenticated = true;
 
 // DOM elements
 const loginScreen = document.getElementById('loginScreen');
@@ -20,32 +20,32 @@ const sections = document.querySelectorAll('.section');
 const PHOTO_FOLDER = './Photo/';
 const VIDEO_FOLDER = './Videos/';
 
-// File lists - you can update these arrays with your actual filenames
+// File lists - updated with actual filenames containing dates
 const PHOTO_FILES = [
-    'First Date with Cookies.JPEG',
-    'First time bring you to meet my parents.JPG',
-    'Flower for your Birthday.JPG',
-    'Our anniversary 2.JPEG',
-    'Our anniversary 3.JPG',
-    'Our anniversary.JPEG',
-    'Our first concert with DuaLipa.JPG',
-    'Our First Date at Penang Bridge.JPG',
-    'Our first drawing.JPG',
-    'Our first Golf.JPG',
-    'Our first hiking.JPG',
-    'Our first Oranges.JPEG',
-    'Our first ourdoor photograph.JPEG',
-    'Our first time attending wedding.JPG',
-    'Our first time roller skate together.JPG',
-    'Our first time went to farm.JPG',
-    'Our first time won prize in Pesta.JPG',
-    'Our first trip to Korea.JPG',
-    'Our First Valentines 2024.JPG',
-    'Our official First Date.JPG',
-    'Our picnic with Cookies.JPG',
-    'Our Valentine 2025.JPG',
-    'Your first Birthday after togerther.JPG',
-    'Your First hand-made mooncake.jpg'
+    'First Date with Cookies_18092023.JPEG',
+    'First time bring you to meet my parents_03122023.JPG',
+    'Flower for your Birthday_30102023.JPG',
+    'Our anniversary 2_29092024.JPEG',
+    'Our anniversary 3_29092024.JPG',
+    'Our anniversary_29092024.JPEG',
+    'Our first concert with DuaLipa_24112024.JPG',
+    'Our First Date at Penang Bridge_07102023.JPG',
+    'Our first drawing_07112024.JPG',
+    'Our first Golf_02062024.JPG',
+    'Our first hiking_05112023.JPG',
+    'Our first Oranges_09112024.JPEG',
+    'Our first ourdoor photograph_07122023.JPEG',
+    'Our first time attending wedding_08032025.JPG',
+    'Our first time roller skate together_08122023.JPG',
+    'Our first time went to farm_22062025.JPG',
+    'Our first time won prize in Pesta_10122023.JPG',
+    'Our first trip to Korea_03112024.JPG',
+    'Our First Valentines 2024_15022024.JPG',
+    'Our official First Date_01102023.JPG',
+    'Our picnic with Cookies_16122024.JPG',
+    'Our Valentine_14022025.JPG',
+    'Your first Birthday after togerther_30102023.JPG',
+    'Your First hand-made mooncake_01102023.jpg'
 ];
 
 const VIDEO_FILES = [
@@ -332,8 +332,8 @@ document.addEventListener('keydown', function(e) {
 
 // Function to extract description from filename
 function getDescriptionFromFilename(filename) {
-    // Remove file extension
-    const nameWithoutExt = filename.replace(/\.[^/.]+$/, "");
+    // Remove file extension and date suffix (_DDMMYYYY)
+    const nameWithoutExt = filename.replace(/\.[^/.]+$/, "").replace(/_\d{8}$/, "");
     
     // Create a more natural description
     let description = nameWithoutExt
@@ -374,7 +374,8 @@ function getDescriptionFromFilename(filename) {
 
 // Function to get romantic subtitle based on filename
 function getSubtitleFromFilename(filename) {
-    const name = filename.toLowerCase();
+    // Remove date suffix for better matching
+    const name = filename.replace(/_\d{8}\./, '.').toLowerCase();
     
     if (name.includes('first date')) return 'Where our love story began ✨';
     if (name.includes('anniversary')) return 'Celebrating our love 💖';
@@ -398,27 +399,19 @@ function getSubtitleFromFilename(filename) {
     return 'Another beautiful memory we share 💝';
 }
 
-// Function to estimate date from filename (you can customize this)
+// Function to extract date from filename with date suffix
 function getEstimatedDate(filename) {
-    const name = filename.toLowerCase();
+    // Extract date from filename format: "filename_DDMMYYYY.ext"
+    const dateMatch = filename.match(/_(\d{2})(\d{2})(\d{4})\./);
     
-    // Extract year if present
-    if (name.includes('2024')) return new Date('2024-02-14');
-    if (name.includes('2025')) return new Date('2025-02-14');
+    if (dateMatch) {
+        const [, day, month, year] = dateMatch;
+        // Create date object (month is 0-indexed in JavaScript)
+        return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    }
     
-    // Estimate based on content
-    if (name.includes('first date') && !name.includes('penang')) return new Date('2023-09-30');
-    if (name.includes('penang')) return new Date('2023-10-15');
-    if (name.includes('parents')) return new Date('2023-11-20');
-    if (name.includes('valentine') && name.includes('2024')) return new Date('2024-02-14');
-    if (name.includes('valentine') && name.includes('2025')) return new Date('2025-02-14');
-    if (name.includes('birthday')) return new Date('2024-06-15');
-    if (name.includes('anniversary')) return new Date('2024-09-30');
-    if (name.includes('korea')) return new Date('2024-08-15');
-    if (name.includes('christmas')) return new Date('2023-12-25');
-    
-    // Default to a random date in 2024
-    return new Date('2024-' + String(Math.floor(Math.random() * 12) + 1).padStart(2, '0') + '-15');
+    // Fallback for files without date suffix
+    return new Date('2023-10-01');
 }
 
 // Function to format date for display
@@ -436,15 +429,19 @@ function loadPhotos() {
     const loading = document.getElementById('gallery-loading');
     
     loading.classList.add('show');
-    photosGrid.innerHTML = '';
-    
-    // Create photo items with estimated dates and sort by date
+    photosGrid.innerHTML = '';    // Create photo items with estimated dates and sort by date (ascending - oldest first)
     const photoItems = PHOTO_FILES.map(filename => ({
         filename,
         date: getEstimatedDate(filename),
         description: getDescriptionFromFilename(filename),
         subtitle: getSubtitleFromFilename(filename)
-    })).sort((a, b) => a.date - b.date);
+    })).sort((a, b) => a.date.getTime() - b.date.getTime()); // Ensure ascending order
+    
+    // Debug: Log the sorted order
+    console.log('Photos sorted by date (oldest to newest):');
+    photoItems.forEach(item => {
+        console.log(`${formatDate(item.date)} - ${item.filename}`);
+    });
     
     setTimeout(() => {
         photoItems.forEach((item, index) => {
@@ -462,15 +459,13 @@ function loadVideos() {
     const loading = document.getElementById('gallery-loading');
     
     loading.classList.add('show');
-    videosGrid.innerHTML = '';
-    
-    // Create video items with estimated dates and sort by date
+    videosGrid.innerHTML = '';    // Create video items with estimated dates and sort by date (ascending - oldest first)
     const videoItems = VIDEO_FILES.map(filename => ({
         filename,
         date: getEstimatedDate(filename),
         description: getDescriptionFromFilename(filename),
         subtitle: getSubtitleFromFilename(filename)
-    })).sort((a, b) => a.date - b.date);
+    })).sort((a, b) => a.date.getTime() - b.date.getTime()); // Ensure ascending order
     
     setTimeout(() => {
         videoItems.forEach((item, index) => {

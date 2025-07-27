@@ -119,3 +119,49 @@ Simply upload all files to your hosting service and share the URL with your part
 **Made with ❤️ for your special day!**
 
 *Remember: The most important thing is not the website itself, but the love and memories you're celebrating together.*
+
+## 📅 How to Update Photo Dates with Actual Date Taken
+
+To ensure your photos are sorted by the actual date they were taken (not estimated dates), follow these steps:
+
+### Step 1: Check Photo Date Taken
+1. **Right-click** on a photo in your Photo folder
+2. Select **Properties**
+3. Go to the **Details** tab
+4. Look for **Date taken** field
+
+### Step 2: Update the Date in Code
+1. Open `script.js`
+2. Find the `actualDateMap` object (around line 380)
+3. Update the date for each photo with the actual date taken
+
+**Example:**
+```javascript
+'our official first date.jpg': new Date('2023-09-30'), // Change this date
+'first date with cookies.jpeg': new Date('2023-10-05'), // Change this date
+```
+
+### Step 3: Date Format
+Use this format: `new Date('YYYY-MM-DD')`
+- Year: 4 digits (2023, 2024, etc.)
+- Month: 2 digits (01-12)
+- Day: 2 digits (01-31)
+
+### Quick Reference for Your Photos:
+You can update these dates in `script.js` with the actual dates:
+
+```javascript
+const actualDateMap = {
+    'our official first date.jpg': new Date('2023-09-30'), // UPDATE THIS
+    'first date with cookies.jpeg': new Date('2023-10-05'), // UPDATE THIS
+    'our first date at penang bridge.jpg': new Date('2023-10-15'), // UPDATE THIS
+    // ... continue for all your photos
+};
+```
+
+### Alternative: Auto-detect dates (Advanced)
+If you're comfortable with command line, you can run this PowerShell command to get all photo dates:
+
+```powershell
+Get-ChildItem ".\Photo\*" | Get-ItemProperty | Select Name, CreationTime | Sort CreationTime
+```

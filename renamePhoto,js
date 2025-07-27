@@ -1,0 +1,55 @@
+const fs = require('fs').promises;
+const path = require('path');
+const ExifParser = require('exif-parser');
+
+async function renamePhotos(folderPath) {
+  try {
+    // Read all files in the folder
+    const files = await fs.readdir(folderPath);
+
+    for (const file of files) {
+      // Check if file is an image (jpg/jpeg/png)
+      if (file.match(/\.(jpg|jpeg|png)$/i)) {
+        const filePath = path.join(folderPath, file);
+
+        // Read file buffer for EXIF data
+        const buffer = await fs.readFile(filePath);
+        const parser = ExifParser.create(buffer);
+        const exifData = parser.parse();
+
+        // Extract Date Taken from EXIF
+        let dateTaken = exifData.tags.DateTimeOriginal || exifData.tags.CreateDate;
+
+        if (!dateTaken) {
+          console.log(`No date metadata found for ${file}, skipping...`);
+          continue;
+        }
+
+        // Convert timestamp to Date object
+        const date = new Date(dateTaken * 1000);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+
+        // Get original file name without extension
+        const fileNameWithoutExt = path.parse(file).name;
+        const fileExt = path.extname(file);
+
+        // Create new file name in format photoName_DDMMYYYY
+        const newFileName = `${fileNameWithoutExt}_${day}${month}${year}${fileExt}`;
+        const newFilePath = path.join(folderPath, newFileName);
+
+        // Rename the file
+        await fs.rename(filePath, newFilePath);
+        console.log(`Renamed ${file} to ${newFileName}`);
+      }
+    }
+    console.log('Photo renaming completed.');
+  } catch (error) {
+    console.error('Error processing photos:', error);
+  }
+}
+
+// Specify the folder path containing photos
+const folderPath = './Photo'; // Update this path
+renamePhotos(folderPath);

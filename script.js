@@ -40,6 +40,7 @@ const PHOTO_FILES = [
     'Our first ourdoor photograph_07122023.JPEG',
     'Our first time attending wedding_08032025.JPG',
     'Our first time roller skate together_08122023.JPG',
+    'Our First Durian Togerther_22062025.jpeg',
     'Our first time went to farm_22062025.JPG',
     'Our first time won prize in Pesta_10122023.JPG',
     'Our first trip to Korea_03112024.JPG',
@@ -491,7 +492,9 @@ function getDescriptionFromFilename(filename) {
         { from: /Pesta/gi, to: '🏆 Pesta Competition' },
         { from: /mooncake/gi, to: '🥮 Mooncake Making' },
         { from: /Cookies/gi, to: '🍪 Cookies' },
-        { from: /Flower/gi, to: '🌸 Flowers' },        { from: /parents/gi, to: '👨‍👩‍👧‍👦 Parents' },
+        { from: /Flower/gi, to: '🌸 Flowers' },
+        { from: /Durian/gi, to: '🟡 Durian Tasting' },
+        { from: /parents/gi, to: '👨‍👩‍👧‍👦 Parents' },
         { from: /Bridge/gi, to: '🌉 Bridge' },
         { from: /Tangerines/gi, to: '🍊 Tangerines' },
         { from: /photograph/gi, to: '📸 Photography' },
@@ -556,6 +559,7 @@ function getSubtitleFromFilename(filename) {
     if (name.includes('mooncake')) return 'Homemade with love 🥮';
     if (name.includes('cookies')) return 'Sweet treats and sweeter moments 🍪';
     if (name.includes('flower')) return 'Blooming with love 🌸';
+    if (name.includes('durian')) return 'Adventurous food tasting together 🟡';
     if (name.includes('together')) return 'Our journey through time 💕';
     
     return 'Another beautiful memory we share 💝';

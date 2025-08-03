@@ -68,16 +68,31 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function setCurrentDate() {
-    const currentDateElement = document.getElementById('currentDate');
-    if (currentDateElement) {
-        const today = new Date();
-        const options = { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        };
-        const formattedDate = today.toLocaleDateString('en-US', options);
-        currentDateElement.textContent = formattedDate;
+    try {
+        const currentDateElement = document.getElementById('currentDate');
+        if (currentDateElement) {
+            const today = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const formattedDate = today.toLocaleDateString('en-US', options);
+            currentDateElement.textContent = formattedDate;
+            console.log('Date updated successfully:', formattedDate);
+        } else {
+            console.error('currentDate element not found');
+            // Try again after a short delay
+            setTimeout(setCurrentDate, 500);
+        }
+    } catch (error) {
+        console.error('Error setting current date:', error);
+        // Fallback to basic date format
+        const currentDateElement = document.getElementById('currentDate');
+        if (currentDateElement) {
+            const today = new Date();
+            currentDateElement.textContent = today.toDateString();
+        }
     }
 }
 
@@ -286,6 +301,11 @@ function showMainContent() {
     
     // Show home section by default
     showSection('home');
+    
+    // Set the current date when main content is shown
+    setTimeout(() => {
+        setCurrentDate();
+    }, 100);
 }
 
 function showErrorMessage(message) {
@@ -854,6 +874,9 @@ function showSection(sectionId) {
             if (videosGrid && videosGrid.children.length === 0) {
                 loadVideos();
             }
+        } else if (sectionId === 'home') {
+            // Ensure date is set when home section is shown
+            setCurrentDate();
         }
     }
     

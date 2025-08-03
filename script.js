@@ -64,7 +64,22 @@ document.addEventListener('DOMContentLoaded', function() {
     startCounters();
     initializeMediaSections();
     initializeBackgroundMusic();
+    setCurrentDate();
 });
+
+function setCurrentDate() {
+    const currentDateElement = document.getElementById('currentDate');
+    if (currentDateElement) {
+        const today = new Date();
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        };
+        const formattedDate = today.toLocaleDateString('en-US', options);
+        currentDateElement.textContent = formattedDate;
+    }
+}
 
 function initializeApp() {
     // Check if user is already authenticated (stored in session)

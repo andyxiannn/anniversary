@@ -318,9 +318,12 @@ function showErrorMessage(message) {
 }
 
 function showSuccessMessage() {
-    errorMessage.textContent = 'Welcome to our love story! 💕';
+    errorMessage.textContent = 'Welcome to our dino-mite love story! 🦕💕🦖';
     errorMessage.style.color = '#4CAF50';
     errorMessage.classList.add('show');
+    
+    // Trigger heart and dinosaur particles
+    createHeartParticles();
 }
 
 function handleNavigation(e) {
@@ -416,12 +419,13 @@ document.addEventListener('click', function(e) {
 
 // Add heart particle effect on successful login
 function createHeartParticles() {
-    const colors = ['#ff6b6b', '#ff8e8e', '#ffa8a8', '#ffcccc'];
+    const heartEmojis = ['💕', '💖', '💝', '💗', '💓'];
+    const dinoEmojis = ['🦕', '🦖', '🦴'];
     
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 15; i++) {
         setTimeout(() => {
             const heart = document.createElement('div');
-            heart.innerHTML = '💕';
+            heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
             heart.style.position = 'fixed';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.top = '100vh';
@@ -437,6 +441,27 @@ function createHeartParticles() {
             }, 5000);
         }, i * 100);
     }
+    
+    // Add some dinosaur particles too!
+    for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+            const dino = document.createElement('div');
+            dino.innerHTML = dinoEmojis[Math.floor(Math.random() * dinoEmojis.length)];
+            dino.style.position = 'fixed';
+            dino.style.left = Math.random() * 100 + 'vw';
+            dino.style.top = '100vh';
+            dino.style.fontSize = Math.random() * 25 + 15 + 'px';
+            dino.style.zIndex = '9999';
+            dino.style.pointerEvents = 'none';
+            dino.style.animation = `dinoFloatUp ${Math.random() * 4 + 3}s ease-out forwards`;
+            
+            document.body.appendChild(dino);
+            
+            setTimeout(() => {
+                dino.remove();
+            }, 7000);
+        }, i * 150);
+    }
 }
 
 // Add the floatUp animation
@@ -445,6 +470,28 @@ heartStyle.textContent = `
     @keyframes floatUp {
         to {
             transform: translateY(-100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    @keyframes dinoFloatUp {
+        0% {
+            transform: translateY(0) rotate(0deg) scale(1);
+            opacity: 1;
+        }
+        25% {
+            transform: translateY(-25vh) rotate(90deg) scale(1.2);
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(-50vh) rotate(180deg) scale(1.3);
+            opacity: 1;
+        }
+        75% {
+            transform: translateY(-75vh) rotate(270deg) scale(1.1);
+            opacity: 0.8;
+        }
+        100% {
+            transform: translateY(-100vh) rotate(360deg) scale(1);
             opacity: 0;
         }
     }

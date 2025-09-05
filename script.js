@@ -44,6 +44,7 @@ const PHOTO_FILES = [
     'Our first time went to farm_22062025.JPG',
     'Our first time won prize in Pesta_10122023.JPG',
     'Our first trip to Korea_03112024.JPG',
+    'Our first Jeju Hiking_06112024.JPG',
     'Our First Valentines 2024_15022024.JPG',
     'Our official First Date_01102023.JPG',    'Our picnic with Cookies_16122024.JPG',
     'Our Valentine_14022025.JPG',
